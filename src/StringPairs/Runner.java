@@ -46,9 +46,9 @@ public class Runner {
            Test case #2: (R, M) -> (R, T)-> (S, R) ->(S, T)
          */
 
-        System.out.println("=============================================");
+        System.out.println("================================================");
         System.out.println("Test case #2: (R, M) -> (R, T)-> (S, R) ->(S, T)");
-        System.out.println("=============================================");
+        System.out.println("================================================");
 
         input = new LinkedList<>();
         input.add(new ListNode("R", "M"));

@@ -1,7 +1,7 @@
 package StringPairs;
 
+import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * <p><tt>TreeNode</tt> is a container for the data required by our implicit tree's nodes.</p>
@@ -10,9 +10,9 @@ import java.util.List;
  */
 public class TreeNode {
     boolean isRoot; // Is this node the root of a sub-forest?
-    List<String> children;
+    HashSet<String> children;
     TreeNode() {
         this.isRoot = true;
-        children = new LinkedList<String>();
+        children = new HashSet<>();
     }
 }
