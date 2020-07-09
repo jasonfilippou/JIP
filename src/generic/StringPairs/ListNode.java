@@ -1,7 +1,7 @@
-package StringPairs;
+package generic.StringPairs;
 
 /**
- * <p><tt>ListNode</tt> is a container for the data carried by our input.</p>
+ * <p>{@link ListNode} is a container for the data carried by our input.</p>
  *
  * @see TreeNode
  *@author <a href = "mailto:jason.filippou@gmail.com">Jason Filippou</a>

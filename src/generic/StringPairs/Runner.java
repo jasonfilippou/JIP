@@ -1,4 +1,4 @@
-package StringPairs;
+package generic.StringPairs;
 
 import java.util.LinkedList;
 
@@ -13,7 +13,7 @@ import java.util.LinkedList;
 public class Runner {
 
     /**
-     * <p>Standard <tt>main</tt> method</p>.
+     * <p>Standard {@code main} method</p>.
      * @param args: The cmd arguments. Not used in this implementation.
      *
      */

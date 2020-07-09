@@ -1,11 +1,10 @@
-package StringPairs;
+package generic.StringPairs;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * <tt>StringPairs.StringPairs</tt>
  *
  * Given a list of nodes that contain two strings that form a parent -&gt; child hierarchy, print the forest that the list
  * represents. For example, the following input:

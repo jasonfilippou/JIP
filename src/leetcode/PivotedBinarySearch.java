@@ -2,7 +2,7 @@ package leetcode;
 
 import java.util.stream.IntStream;
 
-import static util.AssertionChecker.*;
+import static util.TestingFramework.*;
 
 // https://leetcode.com/problems/search-in-rotated-sorted-array/
 public class PivotedBinarySearch {

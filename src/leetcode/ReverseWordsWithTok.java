@@ -2,8 +2,8 @@ package leetcode;
 
 import java.util.Stack;
 import java.util.StringTokenizer;
-import static util.AssertionChecker.check;
-import static util.AssertionChecker.errMsg;
+import static util.TestingFramework.check;
+import static util.TestingFramework.errMsg;
 
 // https://leetcode.com/problems/reverse-words-in-a-string/
 
@@ -11,11 +11,11 @@ import static util.AssertionChecker.errMsg;
  * This solution uses a {@link StringTokenizer}, which is not accepted by the
  * LeetCode engine. We will also build one that emulates the tokenizer's job.
  *
- * @see ReverseWordsInStringWithReverseTok
+ * @see ReverseWordsWithReverseTok
  * @see StringTokenizer
  * @see <a href="https://leetcode.com/problems/reverse-words-in-a-string/">https://leetcode.com/problems/reverse-words-in-a-string/</a>
  */
-public class ReverseWordsInStringWithTok {
+public class ReverseWordsWithTok {
 
     private static final String DELIM= " ";
 

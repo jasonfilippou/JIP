@@ -2,7 +2,7 @@ package generic;
 
 import java.util.stream.IntStream;
 
-import static util.AssertionChecker.check;
+import static util.TestingFramework.check;
 
 public class BinarySearch {
 

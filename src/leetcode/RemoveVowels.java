@@ -1,6 +1,6 @@
 package leetcode;
 
-import static util.AssertionChecker.*;
+import static util.TestingFramework.*;
 
 // https://leetcode.com/problems/remove-vowels-from-a-string/
 public class RemoveVowels {
