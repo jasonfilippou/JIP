@@ -1,6 +1,6 @@
 package leetcode;
 
-import static util.AssertionChecker.check;
+import static util.AssertionChecker.*;
 
 // https://leetcode.com/problems/remove-vowels-from-a-string/
 public class RemoveVowels {
@@ -21,16 +21,14 @@ public class RemoveVowels {
 
     public static void main(String[] args) {
         int testCtr = -1;
-        check(removeVowels("Jason").equals("Jsn"), errMsg(++testCtr));
-        check(removeVowels("jason").equals("jsn"), errMsg(++testCtr));
-        check(removeVowels("Canada Lakes").equals("Cnd Lks"), errMsg(++testCtr));
-        check(removeVowels("Republic of Granadia").equals("Rpblc f Grnd"), errMsg(++testCtr));
-        check(removeVowels("").equals(""), errMsg(++testCtr));
-        check(removeVowels(" ").equals(" "), errMsg(++testCtr));
-        check(removeVowels("  a m ").equals("   m "), errMsg(++testCtr));
+        check("Jsn", removeVowels("Jason"), errMsg(++testCtr));
+        check("jsn", removeVowels("jason"), errMsg(++testCtr));
+        check("Cnd Lks", removeVowels("Canada Lakes"), errMsg(++testCtr));
+        check("Rpblc f Grnd", removeVowels("Republic of Granadia"), errMsg(++testCtr));
+        check("", removeVowels(""), errMsg(++testCtr));
+        check(" ", removeVowels(" "), errMsg(++testCtr));
+        check("   m ", removeVowels("  a m "), errMsg(++testCtr));
     }
 
-    private static String errMsg(int ctr){
-        return "Test " + ctr + " failed.";
-    }
+
 }

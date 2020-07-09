@@ -13,7 +13,7 @@ public class MostCandies {
         List<Boolean> retVal = new ArrayList<>(candies.length); // Pre-allocate for efficiency
         // We will do two passes, maintaining O(n) complexity, albeit with a constant of 2 up front.
         int maxCandies = getMaxCandies(candies);
-        for (int candy : candies)  // enhanced for with primitive???
+        for (int candy : candies)  // enhanced for with primitives ???
             retVal.add((candy + extraCandies >= maxCandies));
         return  retVal;
     }

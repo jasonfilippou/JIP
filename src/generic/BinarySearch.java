@@ -46,19 +46,26 @@ public class BinarySearch {
     }
 
     public static void main(String[] args) {
+
         int testCtr = 0;
-        check( binSearch(IntStream.of(0, 2, 4).toArray(), 0, true) == 0 , failureString(++testCtr));
-        check( binSearch(IntStream.of(0, 2, 4).toArray(), 0, false) == 0, failureString(++testCtr));
-        check( binSearch(IntStream.of(0, 2, 4).toArray(), 2, true) == 1, failureString(++testCtr));
-        check( binSearch(IntStream.of(0, 2, 4).toArray(), 2, false) == 1, failureString(++testCtr));
-        check( binSearch(IntStream.of(0, 2, 4).toArray(), 4, true) == 2, failureString(++testCtr));
-        check( binSearch(IntStream.of(0, 2, 4).toArray(), 4, false) == 2, failureString(++testCtr));
-        check( binSearch(IntStream.of(12, 15, 20, 22, 30, 40, 50, 52, 53).toArray(), 20, true   ) == 2, failureString(++testCtr));
-        check( binSearch(IntStream.of(12, 15, 20, 22, 30, 40, 50, 52, 53).toArray(), 20, false   ) == 2, failureString(++testCtr));
-        check( binSearch(IntStream.of(12, 15, 20, 22, 30, 40, 50, 52, 53).toArray(), 50, true   ) == 6, failureString(++testCtr));
-        check( binSearch(IntStream.of(12, 15, 20, 22, 30, 40, 50, 52, 53).toArray(), 50, false   ) == 6, failureString(++testCtr));
-        check( binSearch(IntStream.of(12, 15, 20, 22, 30, 40, 50, 52, 53).toArray(), 21, true  ) == -1, failureString(++testCtr));
-        check( binSearch(IntStream.of(12, 15, 20, 22, 30, 40, 50, 52, 53).toArray(), 21, false  ) == -1, failureString(++testCtr));
+
+        check( 0,binSearch(IntStream.of(0, 2, 4).toArray(), 0, true) , failureString(++testCtr));
+        check( 0,binSearch(IntStream.of(0, 2, 4).toArray(), 0, false) , failureString(++testCtr));
+
+        check( 1,binSearch(IntStream.of(0, 2, 4).toArray(), 2, true) , failureString(++testCtr));
+        check( 1,binSearch(IntStream.of(0, 2, 4).toArray(), 2, false) , failureString(++testCtr));
+
+        check( 2,binSearch(IntStream.of(0, 2, 4).toArray(), 4, true) , failureString(++testCtr));
+        check( 2 ,binSearch(IntStream.of(0, 2, 4).toArray(), 4, false) , failureString(++testCtr));
+
+        check( 2, binSearch(IntStream.of(12, 15, 20, 22, 30, 40, 50, 52, 53).toArray(), 20, true   ), failureString(++testCtr));
+        check( 2, binSearch(IntStream.of(12, 15, 20, 22, 30, 40, 50, 52, 53).toArray(), 20, false   ), failureString(++testCtr));
+
+        check( 6, binSearch(IntStream.of(12, 15, 20, 22, 30, 40, 50, 52, 53).toArray(), 50, true   ), failureString(++testCtr));
+        check( 6, binSearch(IntStream.of(12, 15, 20, 22, 30, 40, 50, 52, 53).toArray(), 50, false   ), failureString(++testCtr));
+
+        check( -1, binSearch(IntStream.of(12, 15, 20, 22, 30, 40, 50, 52, 53).toArray(), 21, true   ), failureString(++testCtr));
+        check( -1, binSearch(IntStream.of(12, 15, 20, 22, 30, 40, 50, 52, 53).toArray(), 21, false   ), failureString(++testCtr));
 
         System.out.println("All tests passed!");
     }
