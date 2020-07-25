@@ -36,9 +36,10 @@ public class ReverseWordsWithReverseTok {
         check("Filippou Jason", reverseWords(" Jason Filippou"), errMsg(++testCounter)); // No ending whitespaces
         check("Filippou Jason", reverseWords(" Jason Filippou "), errMsg(++testCounter)); // No leading *and* ending whitespaces
         check("Filippou Jason", reverseWords(" Jason       Filippou "), errMsg(++testCounter)); // No interim whitespaces.
-        check("George is married" , reverseWords("married is George"), errMsg(++testCounter)); // George is married.
+        check("George is married" , reverseWords(" married is George "), errMsg(++testCounter)); // George is married.
         check("stout! and short teapot, little a I'm", reverseWords("I'm a little teapot, short and stout!"), errMsg(++testCounter)); // Longer
         check("! stout and short , teapot little a m I'", reverseWords("I' m a little teapot , short and stout !"), errMsg(++testCounter)); // oof
+
         System.out.println("Not only did I pass all tests, but George is still married!");
     }
 
@@ -74,19 +75,16 @@ class ReverseStringTokenizer{
 
 
     private int advanceTillWhitespace(final int currIdx){
-        assert string != null && currIdx > -1 && currIdx < string.length() : " Bad args";
+        assert currIdx < string.length() : " Bad arg: " + currIdx;
         int i;
         for(i = currIdx; (i > -1) && string.charAt(i) != ' '; i--); // empty for works!
         return  i;
     }
 
     private int advanceThroughWhitespace(final int currIdx){
-        assert currIdx < string.length() : " Bad args";
+        assert currIdx < string.length() : " Bad arg: " + currIdx;
         int i;
         for(i = currIdx; (i > -1) && string.charAt(i) == ' '; i--); // empty for works!
         return  i;
     }
-
-
-
 }

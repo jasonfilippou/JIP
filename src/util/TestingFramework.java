@@ -17,7 +17,7 @@ public class TestingFramework {
      */
     public static void check(Object expected, Object actual, String message){
         if(!expected.equals(actual))
-            throw new AssertionError(message + " Expected was: " + expected.toString() + " but actual was: " + actual.toString() + ".");
+            throw new AssertionError(message + " Expected: " + expected.toString() + " but actual: " + actual.toString() + ".");
     }
 
     /**
