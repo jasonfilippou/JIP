@@ -16,20 +16,22 @@ public class Consumer extends Thread {
 
     @Override
     public void run() {
-        while(true) {
+        System.out.println("Consumer thread with ID " + Thread.currentThread().getId() + " starting execution.");
+        while(!jobs.isEmpty()) {
             try {
-                runJobIfAllowed();
+                runJob();
             } catch(InterruptedException iexc){
                 // Those Exceptions will be handled by Producer, so they shouldn't arrive at Consumer.
                 System.out.println("Caught an " + iexc.getClass().getSimpleName() + " in Consumer with ID " + Thread.currentThread().getId() + ". This shouldn't happen.");
                 // TODO: should I perhaps do a stopWorking() here? I mean, I'm expecting the Producer to send me this message...
             }
         }
+        System.out.println("Consumer thread with ID " + Thread.currentThread().getId() + " ending execution.");
     }
 
-    private void runJobIfAllowed() throws InterruptedException{
+    private void runJob() throws InterruptedException{
         Runnable r = jobs.poll(WORKER_TIMEOUT, TimeUnit.SECONDS); // Can throw InterruptedException if interrupted while waiting
-        if(r != null && workFlag)
+        if(r != null)
             r.run();
     }
 
