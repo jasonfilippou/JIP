@@ -76,10 +76,11 @@ public class LRUCache<K, V> {
 
     /* Careful here: if key is found, you need to update value. Also, if cache is full, evict LRU element and then add.
     * Don't forget to increase current count if, and only if, you have a NEW <K, V> pair inserted. */
-    public void add(K key, V value){
+    public void put(K key, V value){
         DLLNode node = myMap.get(key);        // O(1) with the help of our hash table.
         if(node != null){
             replace(key, value);
+            moveToHead(node);
         } else if(atCapacity()){
             evictLRUEntry();
             addNewEntry(key, value);
@@ -196,7 +197,7 @@ public class LRUCache<K, V> {
         assertCondition(lruCache.isEmpty());
         for(Map.Entry<Integer, String> entry: exampleMap.entrySet()){
             System.out.println("Inserting pair <" + entry.getKey() + "," + entry.getValue() + "> into cache");
-            lruCache.add(entry.getKey(), entry.getValue());
+            lruCache.put(entry.getKey(), entry.getValue());
         }
 
         assertCondition(1 == lruCache.getLRUKey());
@@ -206,7 +207,7 @@ public class LRUCache<K, V> {
         assertCondition("Osama".equals(lruCache.get(1)));   // After this call, <1, Osama> will no longer the LRU tuple
         assertCondition(2 == lruCache.getLRUKey());     // It is <2, Derek> now that is the LRU tuple.
         System.out.println("Adding entry <11, Bob>");
-        lruCache.add(11, "Bob"); // Derek should be evicted, he's the LRU at the point of calling this method.
+        lruCache.put(11, "Bob"); // Derek should be evicted, he's the LRU at the point of calling this method.
         assertCondition(lruCache.atCapacity()); // We are still at capacity.
         System.out.println("Searching for the value associated with key 2...");
         assertCondition(null == lruCache.get(2));    // If Derek was successfully evicted, the key '2' should no longer be found.
@@ -217,7 +218,7 @@ public class LRUCache<K, V> {
 
         // At this point, it is <3, Mary> that is the LRU element, and we are STILL at capacity.
         System.out.println("Adding entry <5, Mitsos>");
-        lruCache.add(5, "Mitsos");  // This should NOT evict <3, Mary> because it merely replaces the tuple <5, "Rohan">.
+        lruCache.put(5, "Mitsos");  // This should NOT evict <3, Mary> because it merely replaces the tuple <5, "Rohan">.
         assertCondition("Mary".equals(lruCache.get(3)));    // Now it is <3, Mary> that is the MRU!
         assertCondition(3 == lruCache.getMRUKey());
         assertCondition(4 == lruCache.getLRUKey());// While the LRU should now be <4, Hasan>
