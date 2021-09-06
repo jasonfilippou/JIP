@@ -1,180 +1,182 @@
 package leetcode;
-import java.util.HashSet;
-import java.util.Set;
+
+import lombok.NonNull;
+import org.javatuples.Pair;
+
+import java.util.*;
+
+import static leetcode.NumberOfIslands.Traversal.BFS;
+import static leetcode.NumberOfIslands.Traversal.DFS;
+
 /**
  * <a href="https://leetcode.com/problems/number-of-islands/">Problem 200</a>
  */
-public class NumberOfIslands
-{
-	private class Edge
-	{
-		final RootedTreeNode source, dest;   // Keep package - access for easier access. It's a private class anyway.
+public class NumberOfIslands {
 
-		Edge(final int sourceNodeID, final int destNodeID)
-		{
-			this.source = new RootedTreeNode(sourceNodeID);     // Creates a self-looped RootedTreeNode instance.
-			this.dest = new RootedTreeNode(destNodeID);         // Same.
-		}
-	}
+    enum Traversal {
+        BFS, DFS;
+    }
 
-	private Set<Edge> edges = new HashSet<>();
-	private Set<RootedTreeNode> rootedForest = new HashSet<>();
+    private final HashSet<Pair<Integer, Integer>> visitedCells = new HashSet<>();
+    public static final char LAND = '1';
+    public static final char WATER = '0';
 
-	public int numIslands(char[][] grid)
-	{
-        /* Algorithm for finding #connected components irrespective of disjoint set implementation (lists, rooted trees, etc)
+    public int numIslands(@NonNull char[][] grid) {
+        assert grid.length > 0 && binaryInput(grid) :  "Need a non- empty binary array as input";
+       // return numIslands(grid, BFS);
+        return numIslands(grid, DFS);
+    }
 
-        --------------------------------
-        DISJOINT_SET_SUBROUTINE(Graph G)
-        --------------------------------
-        (1) For every node n in G:
-        (2)     MAKE-SET(n)
-        (3) For every edge (i, j) in G
-        (4)     if FIND_SET(i) != FIND_SET(j)
-        (5)         UNION(i, j)
-
-            When representing the disjoint sets as rooted trees, we will implement MAKE-SET, FIND_SET and UNION such that we introduce
-        union-by-rank and path-compression heuristics. This will lead us to time almost linear in the number of operations required
-        to run the procedure. Here is pseudocode (more details in chapter 21 of CLRS):
-
-
-        ----------------
-        MAKE_SET(Node n)
-        ----------------
-        (1) n.p = n             // Self-loop
-        (2) n.rank = 0
-
-        ----------------
-        FIND_SET(Node n)        // Implements path compression from top to bottom.
-        ----------------
-        (1) if n.p != n
-        (2)     n.p = FIND_SET(n.p)
-        (3) return n.p
-
-        ---------------------
-        UNION(Node i, Node j)
-        ---------------------
-        (1) LINK(FIND_SET(i), FIND_SET(j))      // Can be optimized if i and j are guaranteed to be set representatives.
-
-        --------------------
-        LINK(Node i, Node j)        // Implements union-by-rank heuristic.
-        --------------------
-        (1) if i.rank > j.rank
-        (2)     j.p = i
-        (3) else if i.rank < j.rank
-        (4)     i.p = j
-        (5) else if i.rank == j.rank    // Trying to link trees of the same rank (height)
-        (6)     i.p = j                 // Arbitrary choice
-        (7)     i.rank = i.rank + 1     // This is the only situation where rank can actually change! */
-
-		assert grid != null && grid.length > 0 && grid[0]!= null && grid[0].length > 0 : " Bad grid provided.";
-		final int n = grid.length;
-		final int m = grid[0].length;
-
-		// Build a graph from the grid information. O(m *n) time, O(1) space.
-		for(int i = 0; i < n; i++)
-		{
-			for(int j = 0; j < m; j++)
-			{
-				if(grid[i][j] == '1')
-				{
-					rootedForest.add(new RootedTreeNode(i * m + j));        // MAKE-SET operation. Makes a self-looping node.
-					storeNewEdges(i, j, grid);
-				}
-			}
-		}
-		// Find the connected components of the graph. Time / space complexity dependent on underlying
-		// implementation of disjoint components / sets.
-		findConnectedComponents();
-		return rootedForest.size();
-	}
-
-	private void storeNewEdges(final int i, final int j, final char[][] grid)
-	{
-		final int numCol = grid[0].length;
-		final int nodeId = i * numCol + j;                  // Unique node ID
-		if((j - 1) > -1 && grid[i][j-1] == '1')
-		{
-			edges.add(new Edge(nodeId - 1, nodeId));        // Enumeration of nodes is row-major
-		}
-		if((i - 1) > -1 && grid[i-1][j] == '1')
-		{
-			edges.add(new Edge(nodeId - numCol, nodeId));   // Node one row up has an ID that is "numCols" smaller than the current
-		}
-	}
-
-	private void findConnectedComponents()
-	{
-		for(Edge edge : edges)
-		{
-			final RootedTreeNode sourceSet = edge.source.findRepr(), destSet = edge.dest.findRepr();
-			if(!sourceSet.equals(destSet))
-			{
-				union(sourceSet, destSet);          // Takes care of node linking and removal from rootedForest.
-			}
-		}
-	}
-
-	private void union(final RootedTreeNode n1, final RootedTreeNode n2)
-	{
-		// In our implementation, union is effectively link, because the arguments are always
-		// the set representatives. This leads to a more efficient implementation than the one
-		// implied in CLRS. We will therefore ensure invariant: n1 and n2 should be set representatives.
-		assert n1.parent == n1 && n2.parent == n2 : "Trying to perform union between non-representative nodes.";
-		n1.link(n2);                                  // TODO: ensure operation is symmetric
-	}
-
-	private class RootedTreeNode
-	{
-		// Keep things package private
-		RootedTreeNode parent;
-		final int id;
-		int rank;
+    private int numIslands(char [][] grid, Traversal traversal){
+        int numIslands = 0;
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[i].length; j++){
+                if (islandCell(i, j, grid) && !visitedCells.contains(new Pair<>(i, j))){
+                    if(traversal == BFS) {
+                        bfs(i, j, grid);
+                    } else{
+                        dfs(i, j, grid);
+                    }
+                    numIslands++;
+                }
+            }
+        }
+        visitedCells.clear();
+        return numIslands;
+    }
 
 
-		RootedTreeNode(final int id, int rank)
-		{
-			this.id = id;
-			this.rank = rank;
-			this.parent = this;
-		}
+    /* Breadth - first search implementation. */
+    private void bfs(int iRoot, int jRoot, char[][] grid){
+        Deque<Pair<Integer, Integer>> visitationQueue = new ArrayDeque<>();
+        visitationQueue.addLast(new Pair<>(iRoot, jRoot));
+        while(!visitationQueue.isEmpty()){
+            Pair<Integer, Integer> next = visitationQueue.pollFirst();
+            visitedCells.add(next);
+            int i = next.getValue0();
+            int j = next.getValue1();
+            // Go clockwise starting with 12 o'clock
+            if(withinBounds(i - 1, j, grid) && islandCell(i - 1, j, grid) && !visitedCells.contains(new Pair<>(i - 1, j))){
+                visitationQueue.addLast(new Pair<>(i -1, j));
+            }
+            if(withinBounds(i, j + 1, grid) && islandCell(i, j + 1, grid) && !visitedCells.contains(new Pair<>(i, j + 1))){
+                visitationQueue.addLast(new Pair<>(i , j+1));
+            }
+            if(withinBounds(i + 1, j, grid) && islandCell(i + 1, j, grid) && !visitedCells.contains(new Pair<>(i + 1, j))){
+                visitationQueue.addLast(new Pair<>(i + 1, j));
+            }
+            if(withinBounds(i , j - 1, grid) && islandCell(i , j - 1, grid) && !visitedCells.contains(new Pair<>(i, j - 1))){
+                visitationQueue.addLast(new Pair<>(i, j - 1));
+            }
+        }
+    }
 
-		RootedTreeNode(final int id)
-		{
-			this(id, 0);
-		}
+    /* Depth - first search implementation. */
+    private void dfs(int i, int j, char[][] grid){
+        if(withinBounds(i, j, grid) && islandCell(i, j, grid) && !visitedCells.contains(new Pair<>(i, j))){
+            visitedCells.add(new Pair<>(i, j));
+            // Clockwise rotation of neighbors.
+            dfs(i - 1, j, grid);
+            dfs(i , j + 1, grid);
+            dfs(i + 1, j, grid);
+            dfs(i , j - 1, grid);
+        }
+    }
+    /* Utilities */
+    private boolean binaryInput(char[][] grid){
+        return Arrays.stream(grid).allMatch(row->new String(row).chars().mapToObj(i->(char)i).allMatch(c-> c == '0' || c == '1'));
+    }
 
-		// findRepr() implements path compression heuristic.
-		RootedTreeNode findRepr()
-		{
-			if(parent != this)
-			{
-				parent = parent.findRepr();
-			}
-			return parent;
-		}
+    private boolean withinBounds(int i, int j, char[][] grid){
+        assert grid.length > 0 : "withinBounds() method: the grid was empty.";
+        return i >= 0 && i < grid.length && j >= 0 && j < grid[0].length;
+    }
 
-		void link(final RootedTreeNode otherTree)
-		{
-			if(rank > otherTree.rank)
-			{
-				otherTree.parent = this;
-				rootedForest.remove(otherTree);
+    private boolean islandCell(int i, int j, char[][] grid){
+        assert withinBounds(i, j, grid) : "islandCell() method: parameters i=" + i + " and j = " + j + " were inappropriate.";
+        return grid[i][j] == LAND;
+    }
 
-			}
-			else if(rank < otherTree.rank)
-			{
-				parent = otherTree;
-				rootedForest.remove(this);
-			}
-			else                        // Same rank. Visitor node arbitrarily decided as new tie-breaker.
-			{
-				parent = otherTree;
-				rootedForest.remove(this);
-				otherTree.rank++;       // Length of longest simple path from leaves to root increased by 1.
-			}
-		}
-	}
+    private boolean waterCell(int i, int j, char[][] grid){
+        assert withinBounds(i, j, grid) : "waterCell() method: parameters i=" + i + " and j = " + j + " were inappropriate.";
+        return !islandCell(i, j, grid);          // Since at this point we have assured our input is ok.
+    }
 
+    public static void main(String[] args){
+        char[][][] grids = {
+                new char[][]{   // Expected num islands: 0
+                        new char[]{WATER, WATER},
+                        new char[]{WATER, WATER},
+                },
+                new char[][]{   // Expected num islands:  1
+                        new char[]{LAND, WATER},
+                        new char[]{WATER, WATER},
+                },
+                new char[][]{   // Expected num islands: 1
+                        new char[]{WATER, LAND},
+                        new char[]{WATER, WATER},
+                },
+                new char[][]{   // Expected num islands: 1
+                        new char[]{WATER, WATER},
+                        new char[]{WATER, LAND},
+                },
+                new char[][]{   // Expected num islands: 1
+                        new char[]{WATER, WATER},
+                        new char[]{LAND, WATER},
+                },
+                new char[][]{   // Expected num islands: 1   <------- (the other row in LC INPUT was  [["1", "1", "0"], ["1", "0", "1"], ["1", "1", "0"] ], corresponding to the array below)
+                        new char[]{LAND, LAND, WATER},
+                        new char[]{LAND, WATER, WATER},
+                        new char[]{LAND, LAND, WATER},
+                },
+                new char[][]{   // Expected num islands:  2
+                        new char[]{LAND, LAND, WATER},
+                        new char[]{LAND, WATER, LAND},
+                        new char[]{LAND, LAND, WATER},
+                },
+                new char[][]{   // Expected num islands: 3
+                        new char[]{LAND, LAND, WATER, LAND},
+                        new char[]{LAND, WATER, WATER, LAND},
+                        new char[]{WATER, LAND, WATER, WATER},
+                },
+                new char[][]{   // Expected num islands: 4
+                        new char[]{LAND, WATER, LAND, WATER},
+                        new char[]{WATER, LAND, WATER, LAND},
+                        new char[]{WATER, LAND, LAND, WATER},
+                },
+                new char[][]{   // Expected num islands: 1
+                        new char[]{LAND, LAND, LAND, LAND, LAND},
+                        new char[]{LAND, LAND, LAND, LAND, LAND},
+                        new char[]{LAND, LAND, LAND, LAND, LAND},
+                },
+                new char[][]{   // Expected num islands: 2
+                        new char[]{LAND, LAND, LAND, LAND, LAND},
+                        new char[]{LAND, LAND, LAND, LAND, WATER},
+                        new char[]{LAND, LAND, LAND, WATER, LAND},
+                },
+                new char[][]{   // Expected num islands: 5
+                        new char[]{WATER, WATER, LAND, WATER, WATER, WATER, WATER, WATER, LAND, LAND},
+                        new char[]{WATER, LAND, LAND, LAND, WATER, WATER, WATER, WATER, LAND, LAND},
+                        new char[]{WATER, WATER, LAND, WATER, LAND, WATER, WATER, WATER, WATER, LAND},
+                        new char[]{WATER, WATER, LAND, WATER, LAND, WATER, WATER, WATER, WATER, WATER},
+                        new char[]{WATER, LAND, LAND, LAND, WATER, WATER, WATER, WATER, LAND, LAND},
+                        new char[]{WATER, WATER, LAND, WATER, WATER, WATER, WATER, WATER, WATER, WATER},
+                        new char[]{WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, LAND},
+                        new char[]{WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, LAND},
+                },
+        };
 
+        NumberOfIslands solution = new NumberOfIslands();
+        for(char[][] grid: grids){
+            System.out.println("---- \nGrid:\n" + gridStringifier(grid) + "has " + solution.numIslands(grid) + " islands.\n----");
+        }
+    }
+
+    private static String gridStringifier(char[][] grid){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(char[] row: grid){
+            stringBuilder.append(row).append('\n');
+        }
+        return stringBuilder.toString();
+    }
 }
