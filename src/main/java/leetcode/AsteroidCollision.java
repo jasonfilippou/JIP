@@ -43,10 +43,10 @@ public class AsteroidCollision {
         }
     }
 
-    public static Integer[] collisionStatus(@NonNull int[] inputArray){
+    public static int[] collisionStatus(@NonNull int[] asteroids){
         Deque<Integer> myStack = new ArrayDeque<>();   // ArrayDeque<> is to be preferred over Stack<>, based on the official docs.
-        assert Arrays.stream(inputArray).noneMatch(i->i==0) : "We can't have zero - sized asteroids.";
-        for(int asteroid: inputArray){
+        assert Arrays.stream(asteroids).noneMatch(i->i==0) : "We can't have zero - sized asteroids.";
+        for(int asteroid: asteroids){
             if(myStack.isEmpty() || !collide(myStack.peekLast(), asteroid)){
                 myStack.addLast(asteroid);
             } else if(collide(myStack.peekLast(), asteroid)){
@@ -59,7 +59,7 @@ public class AsteroidCollision {
                 }
             }
         }   // O(n)
-        return myStack.toArray(new Integer[0]);
+        return myStack.stream().mapToInt(v->v).toArray();
     }
 
     private static boolean collide(int leftAsteroid, int rightAsteroid){
