@@ -71,6 +71,7 @@ public class NumberOfIslands {
         }
     }
 
+
     /* Depth - first search implementation. */
     private void dfs(int i, int j, char[][] grid){
         if(withinBounds(i, j, grid) && islandCell(i, j, grid) && !visitedCells.contains(new Pair<>(i, j))){
@@ -83,6 +84,7 @@ public class NumberOfIslands {
         }
     }
     /* Utilities */
+
     private boolean binaryInput(char[][] grid){
         return Arrays.stream(grid).allMatch(row->new String(row).chars().mapToObj(i->(char)i).allMatch(c-> c == '0' || c == '1'));
     }
@@ -100,14 +102,6 @@ public class NumberOfIslands {
     private boolean waterCell(int i, int j, char[][] grid){
         assert withinBounds(i, j, grid) : "waterCell() method: parameters i=" + i + " and j = " + j + " were inappropriate.";
         return !islandCell(i, j, grid);          // Since at this point we have assured our input is ok.
-    }
-
-    private static String gridStringifier(char[][] grid){
-        StringBuilder stringBuilder = new StringBuilder();
-        for(char[] row: grid){
-            stringBuilder.append(row).append('\n');
-        }
-        return stringBuilder.toString();
     }
 
     // Main method with several test cases.
@@ -133,7 +127,7 @@ public class NumberOfIslands {
                         new char[]{WATER, WATER},
                         new char[]{LAND, WATER},
                 },
-                new char[][]{   // Expected num islands: 1   <------- (the other row in LC INPUT was  [["1", "1", "0"], ["1", "0", "1"], ["1", "1", "0"] ], corresponding to the array below)
+                new char[][]{   // Expected num islands: 1
                         new char[]{LAND, LAND, WATER},
                         new char[]{LAND, WATER, WATER},
                         new char[]{LAND, LAND, WATER},
@@ -180,4 +174,14 @@ public class NumberOfIslands {
             System.out.println("---- \nGrid:\n" + gridStringifier(grid) + "has " + solution.numIslands(grid) + " islands.\n----");
         }
     }
+
+
+    private static String gridStringifier(char[][] grid){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(char[] row: grid){
+            stringBuilder.append(row).append('\n');
+        }
+        return stringBuilder.toString();
+    }
+
 }
