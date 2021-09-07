@@ -102,6 +102,15 @@ public class NumberOfIslands {
         return !islandCell(i, j, grid);          // Since at this point we have assured our input is ok.
     }
 
+    private static String gridStringifier(char[][] grid){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(char[] row: grid){
+            stringBuilder.append(row).append('\n');
+        }
+        return stringBuilder.toString();
+    }
+
+    // Main method with several test cases.
     public static void main(String[] args){
         char[][][] grids = {
                 new char[][]{   // Expected num islands: 0
@@ -170,13 +179,5 @@ public class NumberOfIslands {
         for(char[][] grid: grids){
             System.out.println("---- \nGrid:\n" + gridStringifier(grid) + "has " + solution.numIslands(grid) + " islands.\n----");
         }
-    }
-
-    private static String gridStringifier(char[][] grid){
-        StringBuilder stringBuilder = new StringBuilder();
-        for(char[] row: grid){
-            stringBuilder.append(row).append('\n');
-        }
-        return stringBuilder.toString();
     }
 }
