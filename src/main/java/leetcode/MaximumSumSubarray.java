@@ -25,7 +25,7 @@ import static util.TestingFramework.checkEquality;
  * Output: 23
  * Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
  * <p>
- * Leetcode #53 (https://leetcode.com/problems/maximum-subarray/description/)
+ * <a href="https://leetcode.com/problems/maximum-subarray/description/">Leetcode #53</a>
  */
 public class MaximumSumSubarray {
 
