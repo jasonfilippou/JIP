@@ -50,12 +50,12 @@ public class MaximumSumSubarray {
     }
 
     public static void main(String[] args) {
-        final Map<int[], Integer> arraysToMaxSubarraySums= Map.of(
+        final Map<int[], Integer> leetcodeTestCases= Map.of(
             new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4}, 6,
             new int[]{1}, 1,
             new int[]{5, 4, -1, 7, 8}, 23
         );
-        arraysToMaxSubarraySums.forEach((array, maxSubarraySum) -> checkEquality(maxSubArraySum(array), maxSubarraySum, "Array " +
-                Arrays.toString(array) + " has maximum subarray sum equal to " + maxSubarraySum));
+        leetcodeTestCases.forEach((array, maxSubarraySum) -> checkEquality(maxSubArraySum(array), maxSubarraySum,
+                "Array " + Arrays.toString(array) + " has maximum subarray sum equal to " + maxSubarraySum + ". Returned: " + maxSubArraySum(array)));
     }
 }
