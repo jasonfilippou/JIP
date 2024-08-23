@@ -21,13 +21,13 @@ public class RemoveVowels {
 
     public static void main(String[] args) {
         int testCtr = -1;
-        check("Jsn", removeVowels("Jason"), errMsg(++testCtr));
-        check("jsn", removeVowels("jason"), errMsg(++testCtr));
-        check("Cnd Lks", removeVowels("Canada Lakes"), errMsg(++testCtr));
-        check("Rpblc f Grnd", removeVowels("Republic of Granadia"), errMsg(++testCtr));
-        check("", removeVowels(""), errMsg(++testCtr));
-        check(" ", removeVowels(" "), errMsg(++testCtr));
-        check("   m ", removeVowels("  a m "), errMsg(++testCtr));
+        checkEquality("Jsn", removeVowels("Jason"), errMsg(++testCtr));
+        checkEquality("jsn", removeVowels("jason"), errMsg(++testCtr));
+        checkEquality("Cnd Lks", removeVowels("Canada Lakes"), errMsg(++testCtr));
+        checkEquality("Rpblc f Grnd", removeVowels("Republic of Granadia"), errMsg(++testCtr));
+        checkEquality("", removeVowels(""), errMsg(++testCtr));
+        checkEquality(" ", removeVowels(" "), errMsg(++testCtr));
+        checkEquality("   m ", removeVowels("  a m "), errMsg(++testCtr));
     }
 
 

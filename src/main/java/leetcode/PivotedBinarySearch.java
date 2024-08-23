@@ -47,19 +47,19 @@ public class PivotedBinarySearch {
         int testCtr = 0;
 
         // Pivot tests first
-        check(2, getPivot(IntStream.of(8, 12, 14, 0, 1).toArray()), errMsg(++testCtr));
-        check(3, getPivot(IntStream.of(1, 8, 12, 14, 0).toArray()), errMsg(++testCtr));
-        check(5, getPivot(IntStream.of(-5, -4, 2, 3, 11, 100, -90, -80).toArray()), errMsg(++testCtr));
-        check(5, getPivot(IntStream.of(-5, -4, 2, 3, 11, 100, -90).toArray()), errMsg(++testCtr));
+        checkEquality(2, getPivot(IntStream.of(8, 12, 14, 0, 1).toArray()), errMsg(++testCtr));
+        checkEquality(3, getPivot(IntStream.of(1, 8, 12, 14, 0).toArray()), errMsg(++testCtr));
+        checkEquality(5, getPivot(IntStream.of(-5, -4, 2, 3, 11, 100, -90, -80).toArray()), errMsg(++testCtr));
+        checkEquality(5, getPivot(IntStream.of(-5, -4, 2, 3, 11, 100, -90).toArray()), errMsg(++testCtr));
         System.out.println("Passed pivot tests...");
 
         // Bin Search tests
-        check(0, pivotedBinarySearch(IntStream.of(8, 12, 14, 0, 1).toArray(), 8), errMsg(++testCtr));
-        check(1, pivotedBinarySearch(IntStream.of(8, 12, 14, 0, 1).toArray(), 12), errMsg(++testCtr));
-        check(2, pivotedBinarySearch(IntStream.of(8, 12, 14, 0, 1).toArray(), 14), errMsg(++testCtr));
-        check(3, pivotedBinarySearch(IntStream.of(8, 12, 14, 0, 1).toArray(), 0), errMsg(++testCtr));
-        check(4, pivotedBinarySearch(IntStream.of(8, 12, 14, 0, 1).toArray(), 1), errMsg(++testCtr));
-        check(4, pivotedBinarySearch(IntStream.of(4, 5, 6, 7, 0, 1, 2).toArray(), 0), errMsg(++testCtr));
+        checkEquality(0, pivotedBinarySearch(IntStream.of(8, 12, 14, 0, 1).toArray(), 8), errMsg(++testCtr));
+        checkEquality(1, pivotedBinarySearch(IntStream.of(8, 12, 14, 0, 1).toArray(), 12), errMsg(++testCtr));
+        checkEquality(2, pivotedBinarySearch(IntStream.of(8, 12, 14, 0, 1).toArray(), 14), errMsg(++testCtr));
+        checkEquality(3, pivotedBinarySearch(IntStream.of(8, 12, 14, 0, 1).toArray(), 0), errMsg(++testCtr));
+        checkEquality(4, pivotedBinarySearch(IntStream.of(8, 12, 14, 0, 1).toArray(), 1), errMsg(++testCtr));
+        checkEquality(4, pivotedBinarySearch(IntStream.of(4, 5, 6, 7, 0, 1, 2).toArray(), 0), errMsg(++testCtr));
         System.out.println("Passed binary search tests...");
 
         System.out.println("Passed all tests!");

@@ -2,7 +2,7 @@ package leetcode;
 
 import java.util.*;
 
-import static util.TestingFramework.check;
+import static util.TestingFramework.checkEquality;
 import static util.TestingFramework.errMsg;
 
 public class UniqueWordAbbreviation {
@@ -50,21 +50,21 @@ public class UniqueWordAbbreviation {
 
     public static void main(String[] args){
         int testCounter = -1;
-        check(Collections.singletonList(true), isUnique(new String[]{"kelly"},
+        checkEquality(Collections.singletonList(true), isUnique(new String[]{"kelly"},
                 new String[]{"kelly"}), errMsg(++testCounter));
-        check(Collections.singletonList(false), isUnique(new String[]{"kelly"},
+        checkEquality(Collections.singletonList(false), isUnique(new String[]{"kelly"},
                 new String[]{"kerry"}), errMsg(++testCounter));
-        check(Collections.singletonList(false), isUnique(new String[]{"kelly"},
+        checkEquality(Collections.singletonList(false), isUnique(new String[]{"kelly"},
                 new String[]{"karay"}), errMsg(++testCounter));
-        check(Collections.singletonList(false), isUnique(new String[]{"kelly","karry"},
+        checkEquality(Collections.singletonList(false), isUnique(new String[]{"kelly","karry"},
                 new String[]{"kelly"}), errMsg(++testCounter));
-        check(Collections.singletonList(false), isUnique(new String[]{"kelly", "karry"},
+        checkEquality(Collections.singletonList(false), isUnique(new String[]{"kelly", "karry"},
                 new String[]{"karry"}), errMsg(++testCounter));
-        check(Arrays.asList(false, false, true, true, false), isUnique(new String[]{"kelly", "karry"},
+        checkEquality(Arrays.asList(false, false, true, true, false), isUnique(new String[]{"kelly", "karry"},
                 new String[]{"karry", "kelly", "jason", "jonathan", "keiry"}), errMsg(++testCounter));
-        check(Arrays.asList(true,true,false,true), isUnique(new String[]{"mary"},
+        checkEquality(Arrays.asList(true,true,false,true), isUnique(new String[]{"mary"},
                 new String[]{"mike", "mikey", "miky", "mary"}), errMsg(++testCounter));
-        check(Arrays.asList(false,true,false,true), isUnique(new String[]{"deer", "door", "cake", "card"},
+        checkEquality(Arrays.asList(false,true,false,true), isUnique(new String[]{"deer", "door", "cake", "card"},
                 new String[]{"dear", "cart", "cane", "make"}), errMsg(++testCounter));
 
         System.out.println("All tests passed.");

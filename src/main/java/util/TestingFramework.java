@@ -7,17 +7,29 @@ package util;
 public class TestingFramework {
 
     /**
+     * Checks to see if the provided assertion is {@literal true}.
+     * @param assertion A {@literal boolean} assertion to check for truth.
+     * @param excMessage A {@link String} message to throw if the assertion is not true.
+     * @throws AssertionError if the assertion is {@literal false}
+     */
+    public static void checkAssertion(boolean assertion, String excMessage) throws AssertionError {
+        if(!assertion){
+            throw new AssertionError(excMessage);
+        } else {
+            System.out.println("Test passed");
+        }
+    }
+    /**
      * Checks to see if two {@link Object} instances are equal, otherwise throws an instance of {@link AssertionError}.
      * This method is typically called by client code that wants to check the return type of a function, in the vein of:
      * {@code check(expectedValue, method(params), failurMessage)}.
      *
      * @param expected The {@link Object} instance we were expecting to see.
      * @param actual The {@link Object} instance we actually saw.
-     * @param message A hopefully informative message to send to the user.
+     * @param excMessage A hopefully informative message to send to the user.
      */
-    public static void check(Object expected, Object actual, String message){
-        if(!expected.equals(actual))
-            throw new AssertionError(message + " Expected: " + expected.toString() + " but actual: " + actual.toString() + ".");
+    public static void checkEquality(Object expected, Object actual, String excMessage){
+        checkAssertion(expected.equals(actual), excMessage);
     }
 
     /**

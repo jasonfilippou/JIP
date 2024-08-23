@@ -2,7 +2,7 @@ package leetcode;
 
 import java.util.Stack;
 import java.util.StringTokenizer;
-import static util.TestingFramework.check;
+import static util.TestingFramework.checkEquality;
 import static util.TestingFramework.errMsg;
 
 // https://leetcode.com/problems/reverse-words-in-a-string/
@@ -35,17 +35,17 @@ public class ReverseWordsWithTok {
 
     public static void main(String[] args){
         int testCounter = -1;
-        check("", reverseWords(""), errMsg(++testCounter)); // Trivial case 1
-        check("", reverseWords(" "), errMsg(++testCounter)); // Trivial case 2
-        check("", reverseWords("       "), errMsg(++testCounter)); // Trivial case 3
-        check("Filippou Jason", reverseWords("Jason Filippou"), errMsg(++testCounter)); // A simple one.
-        check("Filippou Jason", reverseWords("Jason Filippou "), errMsg(++testCounter)); // No leading whitespaces
-        check("Filippou Jason", reverseWords(" Jason Filippou"), errMsg(++testCounter)); // No ending whitespaces
-        check("Filippou Jason", reverseWords(" Jason Filippou "), errMsg(++testCounter)); // No leading *and* ending whitespaces
-        check("Filippou Jason", reverseWords(" Jason       Filippou "), errMsg(++testCounter)); // No interim whitespaces.
-        check("George is gay" , reverseWords("gay is George"), errMsg(++testCounter)); // George is gay.
-        check("stout! and short teapot, little a I'm", reverseWords("I'm a little teapot, short and stout!"), errMsg(++testCounter)); // Longer
-        check("! stout and short , teapot little a m I'", reverseWords("I' m a little teapot , short and stout !"), errMsg(++testCounter)); // oof
+        checkEquality("", reverseWords(""), errMsg(++testCounter)); // Trivial case 1
+        checkEquality("", reverseWords(" "), errMsg(++testCounter)); // Trivial case 2
+        checkEquality("", reverseWords("       "), errMsg(++testCounter)); // Trivial case 3
+        checkEquality("Filippou Jason", reverseWords("Jason Filippou"), errMsg(++testCounter)); // A simple one.
+        checkEquality("Filippou Jason", reverseWords("Jason Filippou "), errMsg(++testCounter)); // No leading whitespaces
+        checkEquality("Filippou Jason", reverseWords(" Jason Filippou"), errMsg(++testCounter)); // No ending whitespaces
+        checkEquality("Filippou Jason", reverseWords(" Jason Filippou "), errMsg(++testCounter)); // No leading *and* ending whitespaces
+        checkEquality("Filippou Jason", reverseWords(" Jason       Filippou "), errMsg(++testCounter)); // No interim whitespaces.
+        checkEquality("George is gay" , reverseWords("gay is George"), errMsg(++testCounter)); // George is gay.
+        checkEquality("stout! and short teapot, little a I'm", reverseWords("I'm a little teapot, short and stout!"), errMsg(++testCounter)); // Longer
+        checkEquality("! stout and short , teapot little a m I'", reverseWords("I' m a little teapot , short and stout !"), errMsg(++testCounter)); // oof
         System.out.println("Not only did I pass all tests, but George is still gay!");
     }
 

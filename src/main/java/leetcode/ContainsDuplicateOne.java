@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.IntStream;
 
-import static util.TestingFramework.check;
+import static util.TestingFramework.checkEquality;
 import static util.TestingFramework.errMsg;
 
 // https://leetcode.com/problems/contains-duplicate/
@@ -25,11 +25,11 @@ public class ContainsDuplicateOne {
 
     public static void main(String[] args){
         int testCounter = -1;
-        check(true, containsDuplicate(IntStream.of(1, 1).toArray()), errMsg(++testCounter));
-        check(true, containsDuplicate(IntStream.of(1, 1, 2).toArray()), errMsg(++testCounter));
-        check(true, containsDuplicate(IntStream.of(1, 2, 3, 1).toArray()), errMsg(++testCounter));
-        check(false, containsDuplicate(IntStream.of(1, 2, 3, 4).toArray()), errMsg(++testCounter));
-        check(false, containsDuplicate(IntStream.of(1, -1, 2, -10, -20, 0, 4, 20).toArray()), errMsg(++testCounter));
+        checkEquality(true, containsDuplicate(IntStream.of(1, 1).toArray()), errMsg(++testCounter));
+        checkEquality(true, containsDuplicate(IntStream.of(1, 1, 2).toArray()), errMsg(++testCounter));
+        checkEquality(true, containsDuplicate(IntStream.of(1, 2, 3, 1).toArray()), errMsg(++testCounter));
+        checkEquality(false, containsDuplicate(IntStream.of(1, 2, 3, 4).toArray()), errMsg(++testCounter));
+        checkEquality(false, containsDuplicate(IntStream.of(1, -1, 2, -10, -20, 0, 4, 20).toArray()), errMsg(++testCounter));
         System.out.println("All tests passed!");
     }
 }
