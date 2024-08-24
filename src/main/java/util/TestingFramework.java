@@ -33,6 +33,25 @@ public class TestingFramework {
     }
 
     /**
+     * Determines if two arrays are equal.
+     * @param arrayOne The first array
+     * @param arrayTwo The second array
+     * @param <T> The type of the arrays' contents
+     * @throws AssertionError If the arrays are not the same.
+     */
+    public static <T> void checkArraysEqual(T[] arrayOne, T[] arrayTwo) throws AssertionError {
+        if(arrayOne.length != arrayTwo.length){
+            throw new AssertionError("Array 1 length = " + arrayOne.length + " != Array 2 length = " + arrayTwo.length);
+        }
+        for(int i = 0; i < arrayOne.length; i++){
+            if(!arrayOne[i].equals(arrayTwo[i])){
+                throw new AssertionError("Array 1 element " + arrayOne[i] + " not equal to Array 2 element " + arrayTwo[i]);
+            }
+        }
+        System.out.println("Test passed");
+    }
+
+    /**
      * A simple {@link String} which uses an error counter to format itself.
      * @param ctr An integer representing the increasing counter of the current test.
      * @return The {@link String} {@code \"Test CTR failed.\"}, where {@code CTR} is the actual value of the parameter {@code ctr}.
