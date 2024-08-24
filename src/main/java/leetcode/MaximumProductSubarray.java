@@ -16,7 +16,7 @@ import static util.TestingFramework.checkEquality;
  *
  * @author Jason
  *
- * <a href="https://leetcode.com/problems/maximum-subarray/description/">Leetcode #152</a>
+ * <a href="https://leetcode.com/problems/maximum-product-subarray/description/">Leetcode #152</a>
  */
 public class MaximumProductSubarray {
 
