@@ -1,5 +1,7 @@
 package util;
 
+import java.util.Objects;
+
 /**
  * A general testing framework that emulates {@code jUnit}'s {@code assertEquals()}.
  * @author <a href="https://github.com/jasonfilippou">Jason Filippou</a>
@@ -44,7 +46,7 @@ public class TestingFramework {
             throw new AssertionError("Array 1 length = " + arrayOne.length + " != Array 2 length = " + arrayTwo.length);
         }
         for(int i = 0; i < arrayOne.length; i++){
-            if(!arrayOne[i].equals(arrayTwo[i])){
+            if(!Objects.equals(arrayOne[i], arrayTwo[i])){
                 throw new AssertionError("Array 1 element " + arrayOne[i] + " not equal to Array 2 element " + arrayTwo[i]);
             }
         }
