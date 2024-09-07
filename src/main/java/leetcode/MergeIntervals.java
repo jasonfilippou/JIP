@@ -18,17 +18,17 @@ public class MergeIntervals {
                 return intOne[1] - intTwo[1];
             }
         });
-        Queue<int[]> retVal = new ArrayDeque<>();
+        ArrayDeque<int[]> retVal = new ArrayDeque<>();
         retVal.add(intervals[0]);
         for(int i = 1; i < intervals.length; i++){
-            int[] lastInterval = retVal.peek();
+            int[] lastInterval = retVal.peekLast();
             assert lastInterval != null : "We should always have an interval in our stack";
             int[] currentInterval = intervals[i];
             if(currentInterval[0] <= lastInterval[1]){
-                retVal.poll();
-                retVal.add(mergeIntervals(currentInterval, lastInterval));
+                retVal.pollLast();
+                retVal.addLast(mergeIntervals(currentInterval, lastInterval));
             } else{
-                retVal.add(currentInterval);
+                retVal.addLast(currentInterval);
             }
         }
         return retVal.toArray(new int[retVal.size()][2]);
