@@ -1,125 +1,144 @@
 package leetcode;
 
+
+import javax.swing.plaf.IconUIResource;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+class Node {
+
+  public int count;
+
+  public Set<String> keys = new HashSet<>();
+  public Node prev = null;
+  public Node next = null;
+
+  public Node(int count) {
+    this.count = count;
+  }
+
+  public Node(int count, String key) {
+    this.count = count;
+    keys.add(key);
+  }
+}
+
 public class AllOne {
-    private DoublyLinkedListNode head;
-    private HashMap<String, DoublyLinkedListNode> map;
+  //private DoublyLinkedListNode head;
+  //private DoublyLinkedListNode tail;
 
-    public AllOne() {
-        head = null;
-        map = new HashMap<>();
+
+  public Map<String, Node> keyToNode = new HashMap<>();
+  private final Node head = new Node(0);
+  private final Node tail = new Node(0);
+
+  public AllOne() {
+    head.next = tail;
+    tail.prev = head;
+  }
+
+
+  private void addNewKey(String key) {
+    if (head.next.count == 1) {
+      head.next.keys.add(key);
+    } else {
+      insertAfter(head, new Node(1, key));
     }
+    keyToNode.put(key, head.next);
+  }
 
-    public void inc(String key) {
-        if(map.contains(key)){
-            map.get(key).inc();
-        } else {
-            DoublyLinkedListNode newNode = new DoublyLinkedListNode(key, 1);
-            map.add(key, newNode);
-            if(head == null){
-                head = new DoublyLinkedListNode(newNode.getKey(), newNode.getCount(),
-                        newNode, newNode);
-            } else {
-                insertIntoList(head, newNode);
-            }
-        }
+  private void incrementExistingKey(String key) {
+    Node node = keyToNode.get(key);
+    node.keys.remove(key);
+    // Maintain sorted order of count for keys
+    if (node.next == tail || node.next.count > node.count + 1) {
+      insertAfter(node, new Node(node.count + 1));
     }
-
-    public void dec(String key) {
-        assert map.contains(key) : "Problem invariant violated.";
-        map.get(key).dec();
-        if(map.get(key).getCount() == 0){
-            removeFromList(map.get(key));
-            map.remove(key);
-        }
+    node.next.keys.add(key);
+    keyToNode.put(key, node.next);
+    if (node.keys.isEmpty()) {
+      remove(node);
     }
+  }
 
-    public String getMaxKey() {
-        return head.getPrevious().getKey();
+
+  private void decrementExistingKey(String key) {
+    Node node = keyToNode.get(key);
+    node.keys.remove(key);
+    if (node.count > 1) {
+      if (node.prev == head || node.prev.count != node.count - 1) {
+        insertAfter(node, new Node(node.count - 1)); // TODO: Should this insert after node.prev?
+      }
+      node.prev.keys.add(key);
+      keyToNode.put(key, node.prev);
+    } else {
+      keyToNode.remove(key);
     }
-
-    public String getMinKey() {
-        return head.getKey();
+    if (node.keys.isEmpty()) {
+      remove(node);
     }
+  }
 
-    private static class DoublyLinkedListNode {
-        private int count;
-        private String key;
-        private DoublyLinkedListNode previous;
-        private DoublyLinkedListNode next;
 
-        public DoublyLinkedListNode(String key, int count, DoublyLinkedListNode previous,
-                                    DoublyLinkedListNode next){
-            this.key = key;
-            this.count = count;
-            this.previous = previous;
-            this.next = next;
-        }
-
-        public DoublyLinkedListNode(String key, int count){
-            this(key, count, null, null);
-        }
-
-        @Override
-        public boolean equals(Object otherNode){
-            if(otherNode == null) return false;
-            DoublyLinkedListNode otherNodeCasted = ((DoublyLinkedListNode)otherNode);
-            return this.key.equals(otherNodeCasted.getKey()) && this.count == otherNodeCasted.getCount();
-        }
-
-        public int getCount(){
-            return count;
-        }
-
-        public String getKey(){
-            return key;
-        }
-
-        public DoublyLinkedListNode getPrevious(){
-            return previous;
-        }
-
-        public DoublyLinkedListNode getNext(){
-            return next;
-        }
-
-        public void setPrevious(DoublyLinkedListNode previous){
-            this.previous = previous;
-        }
-
-        public void setNext(DoublyLinkedListNode next){
-            this.next = next;
-        }
-
-        public void inc(){
-            count++;
-        }
-
-        public void dec(){
-            count--;
-        }
-
+  public void inc(String key) {
+    if (keyToNode.containsKey(key)) {
+      incrementExistingKey(key);
+    } else {
+      addNewKey(key);
     }
+  }
 
-    private void insertIntoList(DoublyLinkedListNode head, DoublyLinkedListNode nodeToInsert){
-        assert head != null;
-        // Maintain sorted ascending order based on count.
-        DoublyLinkedListNode nodeScanned = head;
-        while(nodeScanned.getCount() < nodeToInsert.getCount() && node != head.getPrevious()){
-            nodeScanned = nodeScanned.getNext();
-        }
-        node.next = new DoublyLinkedListNode(nodeToInsert.getKey(), nodeToInsert.getCount(),
-                node, node.next);
-    }
+  public void dec(String key) {
+    // We are guaranteed existence of key
+    decrementExistingKey(key);
+  }
 
-    private void removeFromList(DoublyLinkedListNode nodeToDelete){
-        DoublyLinkedListNode nodeScanned = head;
-        // Recall that we are guaranteed existence of element
-        // before deletion
-        while(!nodeToDelete.equals(nodeScanned)){
-            nodeScanned = nodeScanned.getNext();
-        }
-        nodeToDelete.getPrevious().setNext(nodeToDelete.getNext());
-        nodeToDelete.getNext().setPrevious(nodeToDelete.getPrevious());
+  public String getMaxKey() {
+    return tail.prev == head ? "" : tail.prev.keys.iterator().next();
+  }
 
-    }
+  public String getMinKey() {
+    return head.next == tail ? "" : head.next.keys.iterator().next();
+  }
+
+  private void insertAfter(Node node, Node newNode) {
+    newNode.prev = node;
+    newNode.next = node.next;
+    node.next.prev = newNode;
+    node.next = newNode;
+  }
+
+  private void remove(Node node) {
+    node.prev.next = node.next;
+    node.next.prev = node.prev;
+  }
+
+
+  /*
+  ["AllOne", "inc", "inc", "getMaxKey", "getMinKey", "inc", "getMaxKey", "getMinKey"]
+  [[], ["hello"], ["hello"], [], [], ["leet"], [], []]
+   */
+  public static void main(String[] args) {
+    AllOne myObj = new AllOne();
+    myObj.inc("apple");
+    myObj.inc("banana");
+    myObj.inc("apple");
+    myObj.inc("orange");
+    myObj.inc("banana");
+    myObj.inc("banana");
+    myObj.dec("apple");
+
+    System.out.println("Max Key : " + myObj.getMaxKey());
+    System.out.println("Min Key : " + myObj.getMinKey());
+
+    myObj.inc("orange");
+    myObj.inc("orange");
+    myObj.inc("orange");
+    myObj.inc("banana");
+
+    System.out.println("Max Key : " + myObj.getMaxKey());
+    System.out.println("Min Key : " + myObj.getMinKey());
+  }
 }
