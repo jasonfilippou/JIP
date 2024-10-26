@@ -3,18 +3,26 @@ package others;
 import org.javatuples.Triplet;
 import org.javatuples.Tuple;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Knapsack {
 
     public static void main(String[] args) {
-        Triplet<int[], int[], Integer> params = new Triplet<>(new int[]{1, 2, 5, 6}, new int[]{2, 3, 4, 5}, 8);
-        int n = params.getValue0().length, W = params.getValue2();
-        int[][] array = buildKnapsackArray(params.getValue0(), params.getValue1(), params.getValue2());
-        System.out.println("Maximum profit is: " + array[n][W]);
-        Set<Integer> includedObjects = generateIncludedObjects(array, params.getValue1());
-        System.out.println("Including objects: " + includedObjects);
+        Set<Triplet<int[], int[], Integer>> paramTriplets = Set.of(
+                new Triplet<>(new int[]{1, 2, 5, 6}, new int[]{2, 3, 4, 5}, 8),
+                new Triplet<>(new int[]{10, 8, 10, 4, 5, 7}, new int[]{4, 5, 3, 1, 6, 6}, 10)
+        );
+        for(var paramTriplet : paramTriplets) {
+            int n = paramTriplet.getValue0().length, W = paramTriplet.getValue2();
+            System.out.println("Processing params: prices = " + Arrays.toString(paramTriplet.getValue0()) +
+                    ", weights = " + Arrays.toString(paramTriplet.getValue1()) + ", knapsack weight = " + paramTriplet.getValue2());
+            int[][] array = buildKnapsackArray(paramTriplet.getValue0(), paramTriplet.getValue1(), paramTriplet.getValue2());
+            System.out.println("Maximum profit is: " + array[n][W]);
+            Set<Integer> includedObjects = generateIncludedObjects(array, paramTriplet.getValue1());
+            System.out.println("Including objects: " + includedObjects);    
+        }
     }
 
     private static int[][] buildKnapsackArray(int[] prices, int[] weights, int W){
